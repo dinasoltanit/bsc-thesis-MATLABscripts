@@ -1,0 +1,20 @@
+a=1;
+b=2;
+r=100;
+n=5;
+n2=2n;
+j0[ x _]:=BesselJ[0,x]; j1[x _]:=BesselJ[1,x]
+d=(a+b)/2+0.0000000000001
+u[x _,k _]:=(x-d)^(k-1) ;uprime[x _,k _]:=(k-1)(x-d)^(k-2)
+f[x _]: =1/(x^2+1); g[x-]:=0
+point=Table[a+(j-1)(b-a)/(n-1),{j,1,n}]
+rhs=Table[0,{j,1,n2}]
+Do[rhs[[i]]=f[point[[i]]],{i,1,n}]
+Do[rhs[[n+i]]=g[Point[[i]]],{i,1,n}]
+mat=Table[0,{j,1,n2},{k,1,n2}]
+Do[mat[[j,k]]=uprime[point[[j]],k],{j,1,n},{k,1,n}]
+Do[mat[[j,k]]=ru[point[[j]],k-n],{j,1,n},{k,n+1,n2}]
+Do[mat[[j+n,k]]=-ru[point[[j]],k],{j,1,n},{k,1,n}]
+Do[mat[[j+n,k]]=uprime[point[[j]],k-n] - u[point[[j]],k-n]/point[[j]],{j,1,n},{k,n+1,n2}]
+c=LinearSolve[mat,rhs]
+approx=X[Sum[c[[k]]u[b,k],{k,1,n}] j0[rb] - Sum[c[[k]] u[a,k],{k,1,n}] j0[ra]+Sum[c[[n+k]]u[b,k],{k,1,n}] j1[rb] - Sum[c[[n+k]]u[a,k],{k,1,n}] j1[ra]]
